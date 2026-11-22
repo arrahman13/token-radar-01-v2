@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Radar — pre-token launch radar</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <div class="mark">◎</div>
+    <div>
+      <h1>TOKEN RADAR</h1>
+      <p>Pre-token launch radar · DefiLlama snapshot <span id="asof">—</span> · every number on this page is recomputed in your browser from the sealed snapshot by the same model that wrote board.json</p>
+    </div>
+  </div>
+  <div class="topright" id="topintegrity">checking integrity…</div>
+</header>
+
+<section class="stats" id="stats"></section>
+
+<section class="panel acct">
+  <div class="accthead"><span>Full accounting of the snapshot's <b id="accttotal">758</b> protocols</span><span class="muted">a protocol is listed as recording no token — never as having none</span></div>
+  <div class="acctbar" id="acctbar"></div>
+  <div class="acctlegend" id="acctlegend"></div>
+</section>
+
+<section class="controls">
+  <input id="q" type="search" placeholder="Search name or slug…">
+  <select id="catf"><option value="">All categories</option></select>
+  <select id="chainf"><option value="">All chains</option></select>
+  <div class="tabs" id="tabs">
+    <button data-tab="all" class="on">All</button><button data-tab="watchlist">Watchlist</button><button data-tab="early">Early</button><button data-tab="farm">FARM verdicts</button>
+  </div>
+  <label class="planpick">Plan size
+    <select id="plan"><option value="1000">$1,000</option><option value="5000" selected>$5,000</option><option value="25000">$25,000</option></select>
+  </label>
+  <button id="csv" class="ghost">CSV</button><button id="json" class="ghost">JSON</button>
+  <span class="muted" id="rowcount"></span>
+</section>
+
+<section class="panel boardwrap">
+  <table id="board">
+    <colgroup><col style="width:36px"><col style="width:296px"><col style="width:96px"><col style="width:66px"><col style="width:92px"><col style="width:96px"><col style="width:74px"><col style="width:118px"><col style="width:158px"><col style="width:82px"><col style="width:96px"></colgroup>
+    <thead><tr>
+      <th data-k="rank">#</th><th data-k="name">Protocol</th><th data-k="tvl" class="num">TVL</th>
+      <th data-k="change7d" class="num">7d %</th><th data-k="ageYears" class="num">No-token age</th>
+      <th data-k="odds" class="num">Launch odds</th><th data-k="months" class="num">When ≈</th>
+      <th data-k="launchValue" class="num">If it launches</th><th data-k="implied" class="num">Implied value</th>
+      <th data-k="perHour" class="num">Farm $/h</th><th data-k="verdict">Verdict</th>
+    </tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+</section>
+
+<section class="panel basket" id="basket">
+  <h2>Basket builder — from board to one plan</h2>
+  <p class="muted">Set a total budget and the hours a week you can actually work. The builder walks the board from the best expected $/hour down and assembles the plans that fit both — each at the plan size selected above.</p>
+  <div class="controls" style="margin:8px 0">
+    <label class="planpick">Total budget <input id="bbudget" type="number" value="25000" min="0" step="500"></label>
+    <label class="planpick">Hours per week <input id="bhours" type="number" value="5" min="0" step="0.5"></label>
+    <button id="bbuild" class="ghost">Build my basket</button>
+    <span class="muted" id="bsummary"></span>
+  </div>
+  <table class="mini" id="btable"></table>
+</section>
+
+<section class="panel detail" id="detail" hidden></section>
+
+<section class="modelgrid">
+  <div class="panel">
+    <h2>Value model — every term on trial</h2>
+    <p class="muted" id="modelnote"></p>
+    <table class="mini" id="termtable"></table>
+    <p class="muted">A term is kept only if it lowers <b>both</b> held-out misses: leave-one-out over the peers, and walk-forward (fit on earlier-listed peers, tested on later ones). Miss = the typical factor by which the fitted value misses the real market cap.</p>
+  </div>
+  <div class="panel">
+    <h2>Range honesty</h2>
+    <div id="ranges"></div>
+    <h2 class="sub">Odds calibration, by no-token age</h2>
+    <table class="mini" id="bandtable"></table>
+    <p class="muted">Realised = share of look-alike protocols that record a token. Predicted = the odds model's mean for the same band. A model that grades itself in the open.</p>
+  </div>
+  <div class="panel">
+    <h2>The stated scenario</h2>
+    <div id="scenario"></div>
+    <h2 class="sub">Where the implied value sits</h2>
+    <div id="rollup"></div>
+  </div>
+</section>
+
+<footer id="integrity">—</footer>
+
+<script src="zz-snapshot-data.js"></script>
+<script src="model.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
